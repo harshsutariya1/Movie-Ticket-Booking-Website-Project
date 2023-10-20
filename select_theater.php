@@ -117,13 +117,18 @@ $result = mysqli_query($conn2, $query);
                          <hr>
 
                          <form class="row" action="select_seats.php" method="post">
-                              <!-- <?php
-                              // $theater_name = $row["theater_name"];
-                              // $query2 = "select * from". $theater_name ;
-                              // $result2 = mysqli_query($conn2, $query2);
-                              // while($row2 = mysqli_fetch_assoc($result2)){
-                              //      echo $row2["movie_name"];
-                              ?> -->
+                              <!-- ___________________________________________________________________________________ -->
+                              <?php
+                              // $theater_name = mysqli_real_escape_string($conn2, $row["theater_name"]);
+                              $theater_name = strtolower($row["theater_name"]);
+                              echo $theater_name;
+                              $query2 = "select * from " . $theater_name;
+                              $result2 = mysqli_query($conn2, $query2);
+                              while($row2 = mysqli_fetch_assoc($result2)){
+                                   echo $row2["movie_name"];
+                              }
+                              ?>
+                              <!-- ___________________________________________________________________________________ -->
 
 
                               <div class="input-group mb-3 col">
