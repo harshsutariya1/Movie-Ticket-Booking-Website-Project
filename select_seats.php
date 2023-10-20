@@ -1,14 +1,13 @@
 <?php
-
 require_once "config.php";
 require_once "currentUserDetails.php";
 if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !==true)
 {
      header("location: login.php");
 }
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-     $selectedItem = $_POST["date"];
- }
+// if ($_SERVER["REQUEST_METHOD"] == "POST") {
+//      $date_time = localStorage.getItem("Date:Time");
+//  }
 
 
 ?>
@@ -33,7 +32,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           /* align-items: center; */
           /* Centers vertically */
      }
-
      </style>
 
      <title>BookIT</title>
@@ -75,16 +73,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
      <!-- __________________________________________________________________________________________ -->
 
      <div class="main_container">
-         <!-- <h6><?php echo $movie?></h6> -->
-         <h6><?php echo $selectedItem?></h6>
-
+          <h6 id="datetime"></h6>
      </div>
 
      <!-- __________________________________________________________________________________________ -->
 
      <!-- Bootstrap JS -->
-     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
           integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+     var dateTime = localStorage.getItem("Date:Time");
+     document.getElementById("datetime").innerHTML = dateTime;
+     </script> -->
+     <script>
+     var dateTime = localStorage.getItem("Date:Time");
+     document.getElementById("datetime").innerHTML = dateTime;
      </script>
 </body>
 

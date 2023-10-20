@@ -1,4 +1,5 @@
 <?php
+
 $movie = $_GET['movie'];
 
 require_once "config.php";
@@ -17,7 +18,6 @@ $row = mysqli_fetch_assoc($result);
 
 <!doctype html>
 <html lang="en">
-
 <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -123,6 +123,18 @@ $row = mysqli_fetch_assoc($result);
 
      <!-- __________________________________________________________________________________________ -->
      <!-- Body -->
+     <script>
+          
+          localStorage.setItem("m_id", " <?php echo $row['m_id']; ?>");
+          localStorage.setItem("movie_poster", " <?php echo $row['poster_img']; ?>");
+          localStorage.setItem("movie_name", " <?php echo $row['movie_name']; ?>");
+          localStorage.setItem("description", " <?php echo $row['description']; ?>");
+          localStorage.setItem("imdb_ratings", " <?php echo $row['imdb_ratings']; ?>");
+          localStorage.setItem("release_date", " <?php echo $row['release_date']; ?>");
+          localStorage.setItem("genre", " <?php echo $row['genre']; ?>");
+          localStorage.setItem("duration", " <?php echo $row['duration']; ?>");
+          localStorage.setItem("language", " <?php echo $row['language']; ?>");
+     </script>
 
      <section id="body" class=" border-opacity-75">
           <div class="row">
@@ -152,7 +164,7 @@ $row = mysqli_fetch_assoc($result);
                          <?php echo $row['language']?>
                     </div>
                     <div class="fw-medium mb-4 position-absolute bottom-0 start-50 translate-middle-x">
-                         <a class="btnn rounded" href="select_theater.php?movie=<?php echo $row['movie_name']?>">Book Tickets</a>
+                         <a class="btnn rounded" href="select_theater.php?movie=<?php echo $movie; ?>">Book Tickets</a>
                     </div>
                </div>
           </div>
@@ -160,12 +172,9 @@ $row = mysqli_fetch_assoc($result);
 
      <!-- __________________________________________________________________________________________ -->
      <!-- Bootstrap JS -->
-     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-          integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-     $(function() {
-          $("#datepicker").datepicker();
-     });
-     </script>
+     <!-- <script>
+          localStorage.setItem("movie_name", <?php // echo $row['movie_name']; ?>);
+     </script> -->
 </body>
 
 </html>

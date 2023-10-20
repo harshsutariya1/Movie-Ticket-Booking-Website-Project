@@ -9,7 +9,8 @@ define('DB_PASSWORD', '');
 define('DB_NAME', 'login');
 
 // Try connecting to the Database
-$conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
+$conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, "login");
+$conn2 = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, "theaters");
 
 //Check the connection
 if($conn == false){
