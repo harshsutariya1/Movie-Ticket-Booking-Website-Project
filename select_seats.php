@@ -1,6 +1,9 @@
 <?php
 require_once "config.php";
 require_once "currentUserDetails.php";
+
+$order_details = $_COOKIE["order_details"];
+
 ?>
 
 <!-- _____________________________________________________________________________________________________________ -->
@@ -17,20 +20,22 @@ require_once "currentUserDetails.php";
 
      <style>
      .main_container {
-          margin: 0rem 1rem;
+          margin: 1rem 1rem;
           padding-bottom: 1rem;
           padding-left: 1rem;
           padding-right: 1rem;
      }
-     .order-details{
-          margin: 1rem;
+
+     .order-details {
+          margin: 1rem 10rem;
      }
 
-     .seats-section, .order-details {
+     .seats-section {
           padding: 1rem;
           margin: 0 10rem;
      }
-     .seats{
+
+     .seats {
           margin: 0 3.5rem;
      }
 
@@ -87,17 +92,18 @@ require_once "currentUserDetails.php";
           <div class="d-flex justify-content-center">
                <h4 style="margin-right: 1rem;">Movie Name:</h4>
                <h4 id="movie_name" style="color: #ba0606;"></h4>
+               <div><?php echo $order_details ?></div>
           </div>
-          <div class="order-details border" >
+          <div class="order-details border">
                <h6 id="theater_name"></h6>
                <h6 id="theater_address"></h6>
                <h6 id="show_date"></h6>
                <h6 id="show_time"></h6>
                <h6 id="price_per_seat"></h6>
           </div>
-          <div class="seats-section">
+          <div class="seats-section border">
                <h5>Select Seats:</h5>
-               <form action="" method="post">
+               <form action="" id="formid" method="post">
                     <div class="seats text-center row border">
                          <div class="col">
                               <?php 
@@ -169,7 +175,8 @@ require_once "currentUserDetails.php";
 
                     </div>
                </form>
-
+               <p class="fs-5" style="margin:1rem;">You have selected <span class="fw-medium" id = "selected-seats">#</span>
+                    seats.</p>
           </div>
      </div>
 
@@ -186,6 +193,13 @@ require_once "currentUserDetails.php";
      document.getElementById("show_date").innerHTML = movieDetails[3];
      document.getElementById("show_time").innerHTML = movieDetails[4];
      document.getElementById("price_per_seat").innerHTML = movieDetails[5];
+
+     var selected_seats;
+     document.getElementById("formid")
+          .addEventListener("change",function(){
+               selected_seats = this.value;
+          });
+     document.getElementById("selected-seats").innerHTML = selected_seats?selected_seats: 0;
      </script>
 </body>
 

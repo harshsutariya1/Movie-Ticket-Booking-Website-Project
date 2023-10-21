@@ -27,7 +27,8 @@ $movie = $_GET['movie'];
           /* align-items: center; */
           /* Centers vertically */
      }
-     .marginright{
+
+     .marginright {
           margin-right: 1rem;
      }
 
@@ -42,7 +43,6 @@ $movie = $_GET['movie'];
           margin: 10px;
           background-color: #dedede;
      }
-
      </style>
 
      <title>BookIT</title>
@@ -57,7 +57,8 @@ $movie = $_GET['movie'];
 
      <div class="main_container">
           <div class="d-flex justify-content-center">
-               <h4 style="margin-right: 1rem;">Movie Name: </h4><h4 id="movie_name" style="color: #ba0606;"></h4>
+               <h4 style="margin-right: 1rem;">Movie Name: </h4>
+               <h4 id="movie_name" style="color: #ba0606;"></h4>
           </div>
           <script>
           var movieName = localStorage.getItem("movie_name");
@@ -74,6 +75,7 @@ $movie = $_GET['movie'];
                     if(strstr($row["movies_showing"], $movie)){ 
                          // If True?                  
                          $theater_name = $row["theater_name"];
+
                          $theater_address = $row["address"];
                ?>
 
@@ -89,28 +91,28 @@ $movie = $_GET['movie'];
                               <!-- ___________________________________________________________________________________ -->
                               <?php
                               $theater_name = mysqli_real_escape_string($conn2, $row["theater_name"]);
-                              $theater_name = strtolower($theater_name);
+                              $lower_theater_name = strtolower($theater_name);
                               // $sql2 = "SELECT * FROM $theater_name"; //It occurs an error.
                               // $sql_for_movie_date_time = "SELECT * FROM `$theater_name` WHERE movie_name='$movie'";
                               // $movie_all_date_times = mysqli_query($conn2, $sql_for_movie_date_time);
 
-                              $sql_for_movie_dates = "SELECT DISTINCT show_date FROM `$theater_name` WHERE movie_name='$movie';";
+                              $sql_for_movie_dates = "SELECT DISTINCT show_date FROM `$lower_theater_name` WHERE movie_name='$movie';";
                               $movie_dates = mysqli_query($conn2, $sql_for_movie_dates);
 
                               while($rows = mysqli_fetch_assoc($movie_dates)){
                                    $date = $rows["show_date"];
                                   
-                                   $sql_for_time = "SELECT show_time, price_per_seat FROM `$theater_name` WHERE show_date = '$date' AND movie_name = '$movie';";
+                                   $sql_for_time = "SELECT show_time, price_per_seat FROM `$lower_theater_name` WHERE show_date = '$date' AND movie_name = '$movie';";
                                    $movie_times = mysqli_query($conn2, $sql_for_time);
                               ?>
 
                               <div class="input-group mb-3 col">
                                    <label class="input-group-text fw-medium"
-                                        for="<?php echo $theater_name . " " . $date ?>"><?php echo $date ?></label>
-                                   <select class="form-select" id="<?php echo $theater_name . " " . $date ?>"
-                                        name="<?php echo $theater_name . " " . $date ?>">
+                                        for="<?php echo $lower_theater_name . " " . $date ?>"><?php echo $date ?></label>
+                                   <select class="form-select" id="<?php echo $lower_theater_name . " " . $date ?>"
+                                        name="order_details">
 
-                                        <option selected>Choose Time...</option>
+                                        <option>Choose Time...</option>
 
                                         <?php 
                                         while($time = mysqli_fetch_assoc($movie_times)){
@@ -126,15 +128,22 @@ $movie = $_GET['movie'];
                               </div>
 
                               <script>
-                              document.getElementById("<?php echo $theater_name . " " . $date ?>").addEventListener(
-                                   "change",
-                                   function() {
-                                        var selectedValue = this.value;
-                                        if (selectedValue !== "Choose Time...") {
-                                             localStorage.setItem("order_details", `${selectedValue}`);
-                                             window.location.href = "select_seats.php";
-                                        }
-                                   });
+                              document.getElementById("<?php echo $lower_theater_name . " " . $date ?>")
+                                   .addEventListener(
+                                        "change",
+                                        function() {
+                                             var selectedValue = this.value;
+                                             if (selectedValue !== "Choose Time...") {
+                                                  localStorage.setItem("order_details", `${selectedValue}`);
+                                                  document.cookie = "order_details="+selectedValue;
+                                                  window.location.href = "select_seats.php";
+                                                  // document.getElementById("formid").addEventListener(
+                                                  //      "change", function(){
+                                                  //           this.submit();
+                                                  //      }
+                                                  // );
+                                             }
+                                        });
                               </script>
 
                               <?php
@@ -157,7 +166,22 @@ $movie = $_GET['movie'];
      <!-- __________________________________________________________________________________________ -->
 
      <!-- Bootstrap JS -->
+     <script>
+     function passVariableToPHP(variableValue) {
+          var xhr = new XMLHttpRequest();
+          xhr.open("POST", "select_seats.php", true);
+          xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+          xhr.send("variable=" + variableValue);
 
+          xhr.onload = function() {
+               if (xhr.status === 200) {
+                    // Parse the response data and use it in your PHP script
+               } else {
+                    // Handle the error
+               }
+          };
+     }
+     </script>
 
 </body>
 

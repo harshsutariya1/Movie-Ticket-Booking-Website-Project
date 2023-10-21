@@ -27,6 +27,7 @@ $row = mysqli_fetch_assoc($result);
      <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
      <!-- css -->
      <style>
+          
      #body {
           margin: 1rem;
           /* border: 2px solid black; */
@@ -71,7 +72,7 @@ $row = mysqli_fetch_assoc($result);
           /* width: 50px; */
           border: 1px solid;
           padding: 12px 100px;
-          background-color: red;
+          background-color: #ba0606;
           color: white;
           font-size: 1.2rem;
      }
