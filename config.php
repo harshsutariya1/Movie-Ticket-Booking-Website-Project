@@ -12,6 +12,7 @@ define('DB_NAME', 'login');
 $conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, "login");
 $conn2 = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, "theaters");
 
+
 //Check the connection
 if($conn == false){
     dir('Error: Cannot connect');

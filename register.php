@@ -1,92 +1,30 @@
 <?php
 require_once "config.php";
 
-$username = $password = $confirm_password = "";
-$username_err = $password_err = $confirm_password_err = "";
-
 if ($_SERVER['REQUEST_METHOD'] == "POST"){
+    $fullname = $_POST["fullname"];
+    $mobilenum = $_POST["phonenum"];
+    $username = $_POST["username"];
+    $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
 
-    // Check if username is empty
-    if(empty(trim($_POST["username"]))){
-        $username_err = "Username cannot be blank";
+    $sql = "INSERT INTO `users`(`username`, `full_name`, `mobile_num`, `password`) VALUES ('$username','$fullname',$mobilenum,'$password')";
+
+    if(mysqli_query($conn, $sql)){
+        session_start();
+        $_SESSION["username"] = $username;
+        $_SESSION["loggedin"] = true;
+        
+        header("Location: index.php");
+        echo "Data inserted successfully.";
+    }else{
+        echo "Error: " . $sql . "<br>" . mysqli_error($conn);
     }
-    else{
-        $sql = "SELECT id FROM users WHERE username = ?";
-        $stmt = mysqli_prepare($conn, $sql); //Returns true or false.
-        if($stmt)
-        {
-            mysqli_stmt_bind_param($stmt, "s", $param_username);
-
-            // Set the value of param username
-            $param_username = trim($_POST['username']);
-
-            // Try to execute this statement
-            if(mysqli_stmt_execute($stmt)){
-                mysqli_stmt_store_result($stmt);
-                if(mysqli_stmt_num_rows($stmt) == 1)
-                {
-                    $username_err = "This username is already taken"; 
-                }
-                else{
-                    $username = trim($_POST['username']);
-                }
-            }
-            else{
-                echo "Something went wrong";
-            }
-        }
-    }
-
-    mysqli_stmt_close($stmt);
-
-
-// Check for password
-if(empty(trim($_POST['password']))){
-    $password_err = "Password cannot be blank";
-}
-elseif(strlen(trim($_POST['password'])) < 5){
-    $password_err = "Password cannot be less than 5 characters";
-}
-else{
-    $password = trim($_POST['password']);
-}
-
-// Check for confirm password field
-if(trim($_POST['password']) !=  trim($_POST['confirm_password'])){
-    $password_err = "Passwords should match";
-}
-
-
-// If there were no errors, go ahead and insert into the database
-if(empty($username_err) && empty($password_err) && empty($confirm_password_err))
-{
-    $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
-    $stmt = mysqli_prepare($conn, $sql);
-    if ($stmt)
-    {
-        mysqli_stmt_bind_param($stmt, "ss", $param_username, $param_password);
-
-        // Set these parameters
-        $param_username = $username;
-        $param_password = password_hash($password, PASSWORD_DEFAULT);
-
-        // Try to execute the query
-        if (mysqli_stmt_execute($stmt))
-        {
-            header("location: login.php");
-        }
-        else{
-            echo "Something went wrong... cannot redirect!";
-        }
-    }
-    mysqli_stmt_close($stmt);
-}
-mysqli_close($conn);
+    mysqli_close($conn);
 }
 
 ?>
 
-
+<!-- _______________________________________________________________________________________________________ -->
 
 
 <!doctype html>
@@ -104,6 +42,8 @@ mysqli_close($conn);
 </head>
 
 <body>
+     <!-- _______________________________________________________________________________________________________ -->
+
      <nav class="navbar navbar-expand-lg fw-bold">
           <a class="navbar-brand mx-xxl-3" href="index.php">BookIT</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
@@ -118,31 +58,45 @@ mysqli_close($conn);
                </ul>
           </div>
      </nav>
+     <!-- _______________________________________________________________________________________________________ -->
 
      <div class="container mt-4">
           <h3>Please Register Here:</h3>
           <hr>
           <form action="" method="post">
                <div class="form-row">
-                    <div class="form-group col-md-6">
-                         <label for="inputEmail4">Username</label>
-                         <input type="text" class="form-control" name="username" id="inputEmail4" placeholder="Email">
+                    <div class="form-group col-md-6 mb-2">
+                         <label for="inputfullname" class="fw-medium">Full Name:</label>
+                         <input type="text" class="form-control" name="fullname" id="inputfullname"
+                              placeholder="Full name" required>
                     </div>
-                    <div class="form-group col-md-6">
-                         <label for="inputPassword4">Password</label>
+                    <div class="form-group col-md-6 mb-2">
+                         <label for="phonenum" class="fw-medium">Mobile Number:</label>
+                         <input type="text" class="form-control" name="phonenum" id="phonenum"
+                              placeholder="Mobile Number" required>
+                    </div>
+                    <div class="form-group col-md-6 mb-2">
+                         <label for="inputEmail4" class="fw-medium">Username:</label>
+                         <input type="text" class="form-control" name="username" id="inputEmail4" placeholder="Username"
+                              required>
+                    </div>
+                    <div class="form-group col-md-6 mb-2">
+                         <label for="inputPassword4" class="fw-medium">Password:</label>
                          <input type="password" class="form-control" name="password" id="inputPassword4"
-                              placeholder="Password">
+                              placeholder="Password" required>
                     </div>
                </div>
                <div class="form-group col-md-6">
-                    <label for="inputPassword4">Confirm Password</label>
+                    <label for="inputPassword4" class="fw-medium">Confirm Password:</label>
                     <input type="password" class="form-control" name="confirm_password" id="inputPassword"
-                         placeholder="Confirm Password">
+                         placeholder="Confirm Password" required>
                </div>
                <br>
-               <button type="submit" class="btn btn-primary">Sign in</button>
+               <button type="submit" class="btn btn-primary fw-bold">Sign in</button>
           </form>
      </div>
+
+     <!-- _______________________________________________________________________________________________________ -->
 
      <!-- Optional JavaScript -->
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"

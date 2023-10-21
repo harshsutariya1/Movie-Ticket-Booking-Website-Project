@@ -5,10 +5,6 @@ $movie = $_GET['movie'];
 require_once "config.php";
 require_once "currentUserDetails.php";
 
-if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !==true)
-{
-    header("location: login.php");
-}
 
 $query = "SELECT * FROM `movies` WHERE movie_name='$movie';";
 $result = mysqli_query($conn,$query);
@@ -79,6 +75,10 @@ $row = mysqli_fetch_assoc($result);
           color: white;
           font-size: 1.2rem;
      }
+     .m-card{
+          background-color: #dedede;
+          border-radius: 1rem;
+     }
      </style>
 
      <title>BookIT</title>
@@ -89,42 +89,11 @@ $row = mysqli_fetch_assoc($result);
      <!-- __________________________________________________________________________________________ -->
      <!-- App Bar -->
 
-     <nav class="navbar navbar-expand-lg fw-bold">
-          <a class="navbar-brand mx-xxl-3" href="index.php">BookIT</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-               aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-               <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNavDropdown">
-               <ul class="navbar-nav">
-                    <li class="nav-item active">
-                         <a class="nav-link" href="index.php">Home</a>
-                    </li>
-                    <li class="nav-item">
-                         <a class="nav-link" href="orders.php">My Bookings</a>
-                    </li>
-                    <li class="nav-item">
-                         <a class="nav-link" href="logout.php">Logout</a>
-                    </li>
-               </ul>
-
-               <div class="navbar-collapse collapse d-flex justify-content-end">
-                    <ul class="navbar-nav ml-auto">
-                         <li class="nav-item active">
-                              <a class="nav-link" href="orders.php">
-                                   <img src="https://img.icons8.com/metro/26/000000/guest-male.png">
-                                   <?php echo $full_name?>
-                              </a>
-                         </li>
-                    </ul>
-               </div>
-          </div>
-     </nav>
+     <?php include "navBar.php";?>
 
      <!-- __________________________________________________________________________________________ -->
      <!-- Body -->
      <script>
-          
           localStorage.setItem("m_id", " <?php echo $row['m_id']; ?>");
           localStorage.setItem("movie_poster", " <?php echo $row['poster_img']; ?>");
           localStorage.setItem("movie_name", " <?php echo $row['movie_name']; ?>");
@@ -142,8 +111,8 @@ $row = mysqli_fetch_assoc($result);
                     <img class="rounded poster" src="<?php echo $row["poster_img"]; ?>" alt="Movie Poster">
                </div>
 
-               <div class="col-7  border-opacity-75 details-part position-relative">
-                    <div class="fw-medium fs-2 text-wrap">
+               <div class="col-7 m-card border-opacity-75 details-part position-relative">
+                    <div class="fw-medium fs-2 text-wrap" style="color: #ba0606;">
                          <?php echo $row['movie_name']; ?>
                     </div>
                     <hr>

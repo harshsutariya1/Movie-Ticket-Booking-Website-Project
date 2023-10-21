@@ -2,15 +2,9 @@
 
 require_once "config.php";
 require_once "currentUserDetails.php";
-if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !==true)
-{
-     header("location: login.php");
-}
 
 $movie = $_GET['movie'];
-$query = "select * from all_theaters";
-$result = mysqli_query($conn2, $query);
-
+ 
 ?>
 
 <!-- ____________________________________________________________________________________________________ -->
@@ -33,12 +27,8 @@ $result = mysqli_query($conn2, $query);
           /* align-items: center; */
           /* Centers vertically */
      }
-
-     .main_heading {
-          margin-top: 10px;
-          margin-bottom: 10px;
-          /* color: red; */
-          /* border: 1px solid black; */
+     .marginright{
+          margin-right: 1rem;
      }
 
      .theaters {
@@ -50,7 +40,9 @@ $result = mysqli_query($conn2, $query);
 
      .t-card {
           margin: 10px;
+          background-color: #dedede;
      }
+
      </style>
 
      <title>BookIT</title>
@@ -59,44 +51,13 @@ $result = mysqli_query($conn2, $query);
 <body>
 
      <!-- __________________________________________________________________________________________ -->
-
-     <nav class="navbar navbar-expand-lg fw-bold">
-          <a class="navbar-brand mx-xxl-3 text-danger" href="index.php">BookIT</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-               aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-               <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNavDropdown">
-               <ul class="navbar-nav">
-                    <li class="nav-item active">
-                         <a class="nav-link" href="index.php">Home</a>
-                    </li>
-                    <li class="nav-item">
-                         <a class="nav-link" href="orders.php">My Bookings</a>
-                    </li>
-                    <li class="nav-item">
-                         <a class="nav-link" href="logout.php">Logout</a>
-                    </li>
-               </ul>
-               <div class="navbar-collapse collapse d-flex justify-content-end">
-                    <ul class="navbar-nav ml-auto">
-                         <li class="nav-item active">
-                              <a class="nav-link text-danger" href="#"> <img
-                                        src="https://img.icons8.com/metro/26/000000/guest-male.png">
-                                   <?php echo $full_name?>
-                              </a>
-                         </li>
-                    </ul>
-               </div>
-          </div>
-     </nav>
-
+     <?php include "navBar.php";?>
      <!-- __________________________________________________________________________________________ -->
 
 
      <div class="main_container">
-          <div class="main_heading d-flex justify-content-center">
-               <h4 id="movie_name"></h4>
+          <div class="d-flex justify-content-center">
+               <h4 style="margin-right: 1rem;">Movie Name: </h4><h4 id="movie_name" style="color: #ba0606;"></h4>
           </div>
           <script>
           var movieName = localStorage.getItem("movie_name");
@@ -106,47 +67,81 @@ $result = mysqli_query($conn2, $query);
           <div class="theaters row">
 
                <?php
+               $sql = "select * from all_theaters";
+               // 
+               $result = mysqli_query($conn2, $sql);
                while($row = mysqli_fetch_assoc($result)){
                     if(strstr($row["movies_showing"], $movie)){ 
-                         // If True?                    
+                         // If True?                  
+                         $theater_name = $row["theater_name"];
+                         $theater_address = $row["address"];
                ?>
 
                <div class="card t-card">
                     <div class="card-body">
-                         <h5 class="card-title mb-4 text-danger"><?php echo $row["theater_name"]?></h5>
+                         <h5 class="card-title mb-4" style="color: #ba0606;">
+                              <?php echo $theater_name ?>
+                         </h5>
+                         <h6 class="card-subtitle mb-2 text-body-secondary"><?php echo $theater_address ?></h6>
                          <hr>
 
-                         <form class="row" action="select_seats.php" method="post">
+                         <form class="row" id="formid" action="select_seats.php" method="post" autocomplete="off">
                               <!-- ___________________________________________________________________________________ -->
                               <?php
-                              // $theater_name = mysqli_real_escape_string($conn2, $row["theater_name"]);
-                              $theater_name = strtolower($row["theater_name"]);
-                              echo $theater_name;
-                              $query2 = "select * from " . $theater_name;
-                              $result2 = mysqli_query($conn2, $query2);
-                              while($row2 = mysqli_fetch_assoc($result2)){
-                                   echo $row2["movie_name"];
-                              }
-                              ?>
-                              <!-- ___________________________________________________________________________________ -->
+                              $theater_name = mysqli_real_escape_string($conn2, $row["theater_name"]);
+                              $theater_name = strtolower($theater_name);
+                              // $sql2 = "SELECT * FROM $theater_name"; //It occurs an error.
+                              // $sql_for_movie_date_time = "SELECT * FROM `$theater_name` WHERE movie_name='$movie'";
+                              // $movie_all_date_times = mysqli_query($conn2, $sql_for_movie_date_time);
 
+                              $sql_for_movie_dates = "SELECT DISTINCT show_date FROM `$theater_name` WHERE movie_name='$movie';";
+                              $movie_dates = mysqli_query($conn2, $sql_for_movie_dates);
+
+                              while($rows = mysqli_fetch_assoc($movie_dates)){
+                                   $date = $rows["show_date"];
+                                  
+                                   $sql_for_time = "SELECT show_time, price_per_seat FROM `$theater_name` WHERE show_date = '$date' AND movie_name = '$movie';";
+                                   $movie_times = mysqli_query($conn2, $sql_for_time);
+                              ?>
 
                               <div class="input-group mb-3 col">
-                                   <label class="input-group-text" for="inputGroupSelect">Date1</label>
-                                   <select class="form-select" id="inputGroupSelect" name="date1">
+                                   <label class="input-group-text fw-medium"
+                                        for="<?php echo $theater_name . " " . $date ?>"><?php echo $date ?></label>
+                                   <select class="form-select" id="<?php echo $theater_name . " " . $date ?>"
+                                        name="<?php echo $theater_name . " " . $date ?>">
 
-                                        <option selected>Choose...</option>
-                                        <option value="date1:time1">Time 1</option>
-                                        <option value="date1:time2">Time 2</option>
-                                        <option value="date1:time3">Time 3</option>
+                                        <option selected>Choose Time...</option>
+
+                                        <?php 
+                                        while($time = mysqli_fetch_assoc($movie_times)){
+                                        ?>
+                                        <option
+                                             value="<?php echo $movie ."|". $theater_name ."|". $theater_address . "|" . $date ?>|<?php echo $time["show_time"]."|".$time["price_per_seat"] ?>">
+                                             <?php echo $time["show_time"] ?></option>
+                                        <?php
+                                        }
+                                        ?>
 
                                    </select>
                               </div>
 
-                              <?php
-                              // }
-                              ?>
+                              <script>
+                              document.getElementById("<?php echo $theater_name . " " . $date ?>").addEventListener(
+                                   "change",
+                                   function() {
+                                        var selectedValue = this.value;
+                                        if (selectedValue !== "Choose Time...") {
+                                             localStorage.setItem("order_details", `${selectedValue}`);
+                                             window.location.href = "select_seats.php";
+                                        }
+                                   });
+                              </script>
 
+                              <?php
+                              
+                              }
+                              ?>
+                              <!-- ___________________________________________________________________________________ -->
                          </form>
 
                     </div>
@@ -162,21 +157,7 @@ $result = mysqli_query($conn2, $query);
      <!-- __________________________________________________________________________________________ -->
 
      <!-- Bootstrap JS -->
-     <script>
-     function resetDropdown() {
-          document.getElementById("inputGroupSelect").value = "Choose...";
-     }
 
-     document.getElementById("inputGroupSelect").addEventListener("change", function() {
-          var selectedValue = this.value;
-          if (selectedValue !== "Choose...") {
-               localStorage.setItem("Date:Time", `${selectedValue}`);
-               window.location.href = "select_seats.php";
-          }
-     });
-
-     window.onbeforeunload = resetDropdown;
-     </script>
 
 </body>
 

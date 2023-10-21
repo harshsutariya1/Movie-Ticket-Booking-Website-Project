@@ -84,7 +84,7 @@ if(empty($err))
 
 <body>
      <nav class="navbar navbar-expand-lg fw-bold">
-          <a class="navbar-brand mx-xxl-3" href="welcome.php">BookIT</a>
+          <a class="navbar-brand mx-xxl-3" href="index.php">BookIT</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
                aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                <span class="navbar-toggler-icon"></span>

@@ -1,18 +1,9 @@
 <?php
 require_once "config.php";
 require_once "currentUserDetails.php";
-if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !==true)
-{
-     header("location: login.php");
-}
-// if ($_SERVER["REQUEST_METHOD"] == "POST") {
-//      $date_time = localStorage.getItem("Date:Time");
-//  }
-
-
 ?>
 
-<!-- ____________________________________________________________________________________________________ -->
+<!-- _____________________________________________________________________________________________________________ -->
 
 <!doctype html>
 <html lang="en">
@@ -26,67 +17,175 @@ if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !==true)
 
      <style>
      .main_container {
-          /* display: flex;
-          justify-content: center; */
-          /* Centers horizontally */
-          /* align-items: center; */
-          /* Centers vertically */
+          margin: 0rem 1rem;
+          padding-bottom: 1rem;
+          padding-left: 1rem;
+          padding-right: 1rem;
      }
+     .order-details{
+          margin: 1rem;
+     }
+
+     .seats-section, .order-details {
+          padding: 1rem;
+          margin: 0 10rem;
+     }
+     .seats{
+          margin: 0 3.5rem;
+     }
+
+     /* _____________ */
+     span.seatBox {
+          display: inline-block;
+          position: relative;
+          width: 50px;
+          height: 50px;
+          margin: 5px;
+          /* float: left; */
+          border: 2px solid #50bcf2;
+          border-radius: 10px;
+          box-sizing: border-box;
+     }
+
+     span.seatBox div {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          line-height: 25px;
+          transition: 0.3s ease;
+          border-radius: 10px;
+     }
+
+     span.seatBox input {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 50px;
+          height: 50px;
+          opacity: 0;
+          cursor: pointer;
+     }
+
+     input[type=checkbox]:checked~div {
+          background-color: #50bcf2;
+     }
+
+     /* _______________ */
      </style>
 
      <title>BookIT</title>
 </head>
 
 <body>
-     <!-- __________________________________________________________________________________________ -->
+     <!-- _________________________________________________________________________________________________________ -->
+     <?php include "navBar.php";?>
+     <!-- _________________________________________________________________________________________________________ -->
 
-     <nav class="navbar navbar-expand-lg fw-bold">
-          <a class="navbar-brand mx-xxl-3" href="index.php">BookIT</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-               aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-               <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNavDropdown">
-               <ul class="navbar-nav">
-                    <li class="nav-item active">
-                         <a class="nav-link" href="index.php">Home</a>
-                    </li>
-                    <li class="nav-item">
-                         <a class="nav-link" href="orders.php">My Bookings</a>
-                    </li>
-                    <li class="nav-item">
-                         <a class="nav-link" href="logout.php">Logout</a>
-                    </li>
-               </ul>
-               <div class="navbar-collapse collapse d-flex justify-content-end">
-                    <ul class="navbar-nav ml-auto">
-                         <li class="nav-item active">
-                              <a class="nav-link" href="#"> <img
-                                        src="https://img.icons8.com/metro/26/000000/guest-male.png">
-                                   <?php echo $full_name?></a>
-                         </li>
-                    </ul>
-               </div>
+     <div class="main_container border">
+          <div class="d-flex justify-content-center">
+               <h4 style="margin-right: 1rem;">Movie Name:</h4>
+               <h4 id="movie_name" style="color: #ba0606;"></h4>
           </div>
-     </nav>
+          <div class="order-details border" >
+               <h6 id="theater_name"></h6>
+               <h6 id="theater_address"></h6>
+               <h6 id="show_date"></h6>
+               <h6 id="show_time"></h6>
+               <h6 id="price_per_seat"></h6>
+          </div>
+          <div class="seats-section">
+               <h5>Select Seats:</h5>
+               <form action="" method="post">
+                    <div class="seats text-center row border">
+                         <div class="col">
+                              <?php 
+                         for($charCode = ord("A"); $charCode<= ord("G"); $charCode++){
+                              $char = chr($charCode);
+                         ?>
+                              <div class="seat-group">
+                                   <?php for($i = 1; $i<=3; $i++){?>
+                                   <span class="seatBox">
+                                        <input type="checkbox" class="checkbox" name="<?php echo $char.$i?>"
+                                             id="<?php echo $char.$i?>" autocomplete="off">
+                                        <div>
+                                             <span><?php echo $char.$i?></span>
+                                        </div>
+                                   </span>
+                                   <?php }?>
+                              </div>
+                              <!-- <br> -->
 
-     <!-- __________________________________________________________________________________________ -->
+                              <?php 
+                              }
+                         ?>
+                         </div>
+                         <div class="col-5">
+                              <?php 
+                         for($charCode = ord("A"); $charCode<= ord("G"); $charCode++){
+                              $char = chr($charCode);
+                         ?>
 
-     <div class="main_container">
-          <h6 id="datetime"></h6>
+                              <div class="seat-group">
+                                   <?php for($i = 4; $i<=8; $i++){?>
+                                   <span class="seatBox">
+                                        <input type="checkbox" class="checkbox" name="<?php echo $char.$i?>"
+                                             id="<?php echo $char.$i?>" autocomplete="off">
+                                        <div>
+                                             <span><?php echo $char.$i?></span>
+                                        </div>
+                                   </span>
+                                   <?php }?>
+                              </div>
+
+                              <?php 
+                              }
+                         ?>
+                         </div>
+                         <div class="col">
+                              <?php 
+                         for($charCode = ord("A"); $charCode<= ord("G"); $charCode++){
+                              $char = chr($charCode);
+                         ?>
+
+                              <div class="seat-group">
+                                   <?php for($i = 9; $i<=10; $i++){?>
+                                   <span class="seatBox">
+                                        <input type="checkbox" class="checkbox" name="<?php echo $char.$i?>"
+                                             id="<?php echo $char.$i?>" autocomplete="off">
+                                        <div>
+                                             <span><?php echo $char.$i?></span>
+                                        </div>
+                                   </span>
+
+                                   <?php }?>
+                              </div>
+
+                              <?php 
+                              }
+                         ?>
+                         </div>
+
+                    </div>
+               </form>
+
+          </div>
      </div>
 
-     <!-- __________________________________________________________________________________________ -->
+     <!-- __________________________________________________________________________________________________________ -->
 
      <!-- Bootstrap JS -->
-     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-          integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-     var dateTime = localStorage.getItem("Date:Time");
-     document.getElementById("datetime").innerHTML = dateTime;
-     </script> -->
+
      <script>
-     var dateTime = localStorage.getItem("Date:Time");
-     document.getElementById("datetime").innerHTML = dateTime;
+     var movie_details = localStorage.getItem("order_details");
+     var movieDetails = movie_details.split("|");
+     document.getElementById("movie_name").innerHTML = movieDetails[0];
+     document.getElementById("theater_name").innerHTML = movieDetails[1];
+     document.getElementById("theater_address").innerHTML = movieDetails[2];
+     document.getElementById("show_date").innerHTML = movieDetails[3];
+     document.getElementById("show_time").innerHTML = movieDetails[4];
+     document.getElementById("price_per_seat").innerHTML = movieDetails[5];
      </script>
 </body>
 
