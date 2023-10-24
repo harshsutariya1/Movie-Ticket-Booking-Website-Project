@@ -60,7 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
      </nav>
      <!-- _______________________________________________________________________________________________________ -->
 
-     <div class="container mt-4">
+     <div class="container mb-4">
           <h3>Please Register Here:</h3>
           <hr>
           <form action="" method="post">

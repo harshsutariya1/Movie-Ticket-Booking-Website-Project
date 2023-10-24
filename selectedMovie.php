@@ -29,9 +29,7 @@ $row = mysqli_fetch_assoc($result);
      <style>
           
      #body {
-          margin: 1rem;
-          /* border: 2px solid black; */
-          height: 80vh;
+          margin: 0 1rem;
      }
 
      .poster-part {
@@ -57,15 +55,6 @@ $row = mysqli_fetch_assoc($result);
           margin-right: 2rem;
           padding-top: 0.5rem;
      }
-
-     /* .description-para {
-          max-height: 3em;
-          Adjust to the number of lines you want
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-     } 
-     */
 
      .btnn {
           text-decoration: none;
@@ -113,8 +102,8 @@ $row = mysqli_fetch_assoc($result);
                </div>
 
                <div class="col-7 m-card border-opacity-75 details-part position-relative">
-                    <div class="fw-medium fs-2 text-wrap" style="color: #ba0606;">
-                         <?php echo $row['movie_name']; ?>
+                    <div  style="color: #ba0606;">
+                         <span class="fw-medium fs-2 text-wrap"><?php echo $row['movie_name']; ?></span>
                     </div>
                     <hr>
                     <div class="fw-normal text-wrap">
@@ -123,17 +112,17 @@ $row = mysqli_fetch_assoc($result);
                     <hr>
                     <div class="fw-bold">
                          <img src="images/imdb.png" alt="IMDb">
-                         <?php echo $row['imdb_ratings']?> / 10
+                         <?php echo $row['imdb_ratings']?$row['imdb_ratings']:"N/A";?> / 10
                     </div>
                     <hr>
                     <div class="fw-normal">
-                         <?php echo $row['release_date']?> • <?php echo $row['genre']?> • <?php echo $row['duration']?>
+                    <span class="fw-medium">Release Date: </span> <?php echo $row['release_date']?> • <span class="fw-medium"> Genre: </span>  <?php echo $row['genre']?> • <span class="fw-medium">Duration: </span> <?php echo $row['duration']?>
                     </div>
                     <hr>
-                    <div class="fw-normal">
-                         <?php echo $row['language']?>
+                    <div class="fw-normal mb-4">
+                        <span class="fw-medium">Languages:</span>  <?php echo $row['language']?>
                     </div>
-                    <div class="fw-medium mb-4 position-absolute bottom-0 start-50 translate-middle-x">
+                    <div class="fw-medium mt-4 mb-4 position-absolute bottom-0 start-50 translate-middle-x">
                          <a class="btnn rounded" href="select_theater.php?movie=<?php echo $movie; ?>">Book Tickets</a>
                     </div>
                </div>

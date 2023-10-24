@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Oct 21, 2023 at 06:21 PM
+-- Generation Time: Oct 23, 2023 at 05:02 AM
 -- Server version: 8.0.31
 -- PHP Version: 8.0.26
 
@@ -27,8 +27,8 @@ SET time_zone = "+00:00";
 -- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE IF NOT EXISTS `users` (
+DROP TABLE IF EXISTS `hotel_login`;
+CREATE TABLE IF NOT EXISTS `hotel_login` (
   `id` int NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL,
   `full_name` varchar(100) NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `full_name`, `mobile_num`, `password`, `created_at`) VALUES
+INSERT INTO `hotel_login` (`id`, `username`, `full_name`, `mobile_num`, `password`, `created_at`) VALUES
 (1, 'harsh', 'Harsh Sutariya', 9754214587, '$2y$10$6jq30XUG7H2o.IUt9dhx.eJBpVzBsfv4rpUYaTkDxM2jRZYdhlfv2', '2023-10-16 21:47:24'),
 (2, 'yash', 'Yash Sutariya', 8545785452, '$2y$10$7YY9N48nOs0o0Av6dG5egOtx0P3lojHyVxk1TZsfdr1kdV0dLLuJq', '2023-10-16 21:56:12'),
 (7, 'vishesh', 'Vishesh Bhatt', 4578451245, '$2y$10$.Ox.t2l7elIvDZ63.rDuFeft274wmUH92dplNIgfiWpuRPegoQD.u', '2023-10-21 04:05:35'),

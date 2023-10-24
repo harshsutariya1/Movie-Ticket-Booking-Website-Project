@@ -102,7 +102,7 @@ $movie = $_GET['movie'];
                               while($rows = mysqli_fetch_assoc($movie_dates)){
                                    $date = $rows["show_date"];
                                   
-                                   $sql_for_time = "SELECT show_time, price_per_seat FROM `$lower_theater_name` WHERE show_date = '$date' AND movie_name = '$movie';";
+                                   $sql_for_time = "SELECT show_time, price_per_seat, screen_num FROM `$lower_theater_name` WHERE show_date = '$date' AND movie_name = '$movie';";
                                    $movie_times = mysqli_query($conn2, $sql_for_time);
                               ?>
 
@@ -118,7 +118,7 @@ $movie = $_GET['movie'];
                                         while($time = mysqli_fetch_assoc($movie_times)){
                                         ?>
                                         <option
-                                             value="<?php echo $movie ."|". $theater_name ."|". $theater_address . "|" . $date ?>|<?php echo $time["show_time"]."|".$time["price_per_seat"] ?>">
+                                             value="<?php echo $movie ."|". $theater_name ."|". $theater_address . "|" .$time["screen_num"]."|". $date ?>|<?php echo $time["show_time"]."|".$time["price_per_seat"] ?>">
                                              <?php echo $time["show_time"] ?></option>
                                         <?php
                                         }
@@ -135,13 +135,8 @@ $movie = $_GET['movie'];
                                              var selectedValue = this.value;
                                              if (selectedValue !== "Choose Time...") {
                                                   localStorage.setItem("order_details", `${selectedValue}`);
-                                                  document.cookie = "order_details="+selectedValue;
+                                                  document.cookie = "order_details=" + selectedValue;
                                                   window.location.href = "select_seats.php";
-                                                  // document.getElementById("formid").addEventListener(
-                                                  //      "change", function(){
-                                                  //           this.submit();
-                                                  //      }
-                                                  // );
                                              }
                                         });
                               </script>
@@ -167,20 +162,6 @@ $movie = $_GET['movie'];
 
      <!-- Bootstrap JS -->
      <script>
-     function passVariableToPHP(variableValue) {
-          var xhr = new XMLHttpRequest();
-          xhr.open("POST", "select_seats.php", true);
-          xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-          xhr.send("variable=" + variableValue);
-
-          xhr.onload = function() {
-               if (xhr.status === 200) {
-                    // Parse the response data and use it in your PHP script
-               } else {
-                    // Handle the error
-               }
-          };
-     }
      </script>
 
 </body>

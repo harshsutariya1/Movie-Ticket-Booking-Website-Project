@@ -17,7 +17,11 @@ $conn2 = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, "theaters");
 
 //Check the connection
 if($conn == false){
-    dir('Error: Cannot connect');
+    dir('Error: Cannot connect login DB');
 }
+if($conn2 == false){
+    dir('Error: Cannot connect theaters DB');
+}
+
 
 ?>
