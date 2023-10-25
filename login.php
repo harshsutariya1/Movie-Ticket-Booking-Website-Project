@@ -83,6 +83,8 @@ if(empty($err))
 </head>
 
 <body>
+     <!-- _______________________________________________________________________________________________________________ -->
+
      <nav class="navbar navbar-expand-lg fw-bold">
           <a class="navbar-brand mx-xxl-3" href="index.php">BookIT</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
@@ -97,6 +99,7 @@ if(empty($err))
                </ul>
           </div>
      </nav>
+     <!-- _______________________________________________________________________________________________________________ -->
 
      <div class="container mt-4">
           <h3>Please Login Here:</h3>
@@ -104,28 +107,22 @@ if(empty($err))
 
           <form action="" method="post">
                <div class="form-group col-md-6">
-                    <label for="exampleInputEmail1">Username</label>
+                    <label for="exampleInputEmail1" class="fw-medium">Username:</label>
                     <input type="text" name="username" class="form-control" id="exampleInputEmail1"
-                         aria-describedby="emailHelp" placeholder="Enter Username">
+                         aria-describedby="emailHelp" placeholder="Enter Username" minlength="3" maxlength="15">
                </div>
-               <div class="form-group col-md-6">
-                    <label for="exampleInputPassword1">Password</label>
+               <div class="mt-3 form-group col-md-6">
+                    <label for="exampleInputPassword1" class="fw-medium">Password:</label>
                     <input type="password" name="password" class="form-control" id="exampleInputPassword1"
-                         placeholder="Enter Password">
+                         placeholder="Enter Password" minlength="3" maxlength="10">
                </div>
                <br>
                <button type="submit" class="btn btn-primary">Submit</button>
           </form>
-
-
-
      </div>
 
      <!-- Optional JavaScript -->
-     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-          integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-     </script>
+
 
 </body>
 

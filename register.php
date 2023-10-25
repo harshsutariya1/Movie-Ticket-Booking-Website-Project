@@ -77,13 +77,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST"){
                     </div>
                     <div class="form-group col-md-6 mb-2">
                          <label for="inputEmail4" class="fw-medium">Username:</label>
-                         <input type="text" class="form-control" name="username" id="inputEmail4" placeholder="Username"
+                         <input type="text" class="form-control" name="username" id="inputEmail4" placeholder="Username" minlength="3" maxlength="15"
                               required>
                     </div>
                     <div class="form-group col-md-6 mb-2">
                          <label for="inputPassword4" class="fw-medium">Password:</label>
                          <input type="password" class="form-control" name="password" id="inputPassword4"
-                              placeholder="Password" required>
+                              placeholder="Password" minlength="3" maxlength="10" required>
                     </div>
                </div>
                <div class="form-group col-md-6">
