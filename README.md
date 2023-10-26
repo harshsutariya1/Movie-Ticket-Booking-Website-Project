@@ -5,3 +5,7 @@
   - `HTML` | `CSS` | `JavaScript`
   - Database `MySQL`
   - Web Design Framework `Bootstrap`
+
+## Acknowledgments
+
+This project was created as part of a programming exercise and serves as a basic example of a Movie ticket booking website.
