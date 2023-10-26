@@ -7,7 +7,6 @@ $result2 = mysqli_query($conn,$query2);
 
 ?>
 
-
 <!doctype html>
 <html lang="en">
 
