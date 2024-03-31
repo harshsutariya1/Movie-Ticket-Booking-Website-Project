@@ -6,6 +6,7 @@
   - Database `MySQL`
   - Web Design Framework `Bootstrap`
 
+- Not Responsive yet.
 ## Acknowledgments
 
 This project was created as part of a programming exercise and serves as a basic example of a Movie ticket booking website.
